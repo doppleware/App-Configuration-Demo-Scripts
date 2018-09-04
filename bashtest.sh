@@ -1,1 +1,1 @@
-echo "hello from the vm!!"
+echo "hello from the linux vm!!"
