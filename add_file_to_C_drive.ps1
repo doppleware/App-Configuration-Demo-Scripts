@@ -1,0 +1,1 @@
+Set-Content -Path "C:\" -Value "My test Value!!!" -Force
