@@ -1,3 +1,5 @@
+"Starting config script" > C:\config-log.txt
+
 # Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 NetSh Advfirewall set allprofiles state off
 # Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
@@ -39,7 +41,7 @@ NetSh Advfirewall set allprofiles state off
 .LINK
    Set-NetConnectionProfile
 #>
-function Get-NetConnectionProfile
+function Get-NetConnectionProfileCustom
 {
     [CmdletBinding()]
     [OutputType([psobject])]
@@ -220,3 +222,4 @@ Enable-PSRemoting -SkipNetworkProfileCheck -Force
 winrm set winrm/config/client/auth '@{Basic="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+"Config Script done" >> C:\config-log.txt
