@@ -213,11 +213,11 @@ function Set-NetConnectionProfile
     }
 }
 
-"Starting config script" > C:\config-log.txt
+Set-Content -Path "C:\configlog.txt" -Value "Starting winrm config"
 Get-NetConnectionProfile -NetworkCategory Public | Set-NetConnectionProfile -NetworkCategory Private
 
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
 winrm set winrm/config/client/auth '@{Basic="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
-"Config Script done" >> C:\config-log.txt
+Add-Content -Path "C:\configlog.txt" -Value "winrm config ended"
