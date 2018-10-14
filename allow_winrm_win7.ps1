@@ -1,5 +1,3 @@
-"Starting config script" > C:\config-log.txt
-
 # Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 NetSh Advfirewall set allprofiles state off
 # Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
@@ -215,7 +213,7 @@ function Set-NetConnectionProfile
     }
 }
 
-
+"Starting config script" > C:\config-log.txt
 Get-NetConnectionProfile -NetworkCategory Public | Set-NetConnectionProfile -NetworkCategory Private
 
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
