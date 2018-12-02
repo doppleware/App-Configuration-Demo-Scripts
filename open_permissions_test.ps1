@@ -18,15 +18,7 @@ winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
 # check winrm status
-Try
-{
-    $winrm_status= Test-WSMan
-Catch
-{
-    $ErrorMessage = $_.Exception.Message
-    Break
-}
-
+$winrm_status= Test-WSMan
 Add-Content -Path $dir_path "WinRm Status: `n$winrm_status"
 
 
