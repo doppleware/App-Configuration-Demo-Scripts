@@ -2,6 +2,12 @@
 # 2. set preferred dns
 # 3. add to skybox.demo.com domain
 
+# initialize input params
+param(
+  [string]$localpass_input,
+  [string]$dcpass_input
+)
+
 ### Set Log file ###
 $dir_name = "Azure_config_log"
 $dir_path = "C:\$dir_name\azure_config.txt"
@@ -15,6 +21,11 @@ Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 # Set network to private (necessary for winrm to work)
 Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
 
+# check connection profile
+$net_connection_profile = Get-NetConnectionProfile
+$net_category = $net_connection_profile.NetworkCategory
+Set-Content -Path $dir_path -Value "Current Network Profile $net_category" -Force
+
 # allow winrm config
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
 winrm set winrm/config/client/auth '@{Basic="true"}'
@@ -22,16 +33,9 @@ winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
 # check winrm status
-Try
-{
-    $winrm_status= Test-WSMan
-Catch
-{
-    $ErrorMessage = $_.Exception.Message
-    Break
-}
-
-Add-Content -Path $dir_path "WinRm Status: `n$exec_policy"
+$winrm_status= Test-WSMan
+$wsmid = $winrm_status.wsmid
+Add-Content -Path $dir_path "WinRm wsmid: `n$wsmid"
 
 
 # set execution policy to allow scripts to run
@@ -50,11 +54,6 @@ $interface_alias = "Ethernet 4"
 Set-DnsClientServerAddress -InterfaceAlias $interface_alias -ServerAddresses ($dc_ip, $alt_dns_ip)
 
 #### Add to demo.skybox.com domain ###
-param(
-  [string]$localpass_input,
-  [string]$dcpass_input
-)
-
 $domain_name = "demo.skybox.com"
 $local_user = "quali_admin"
 $dc_user = "administrator"
