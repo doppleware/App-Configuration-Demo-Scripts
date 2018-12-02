@@ -1,0 +1,1 @@
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet 4" -ServerAddresses ("192.168.90.5", "168.63.129.16")
