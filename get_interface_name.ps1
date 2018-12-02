@@ -1,0 +1,2 @@
+$index = get-wmiObject -Class Win32_NetworkAdapterConfiguration | Where-Object { ($_.DefaultIPGateway -eq "192.168.30.1") } | Select-object InterfaceIndex
+get-wmiObject -Class Win32_NetworkAdapter | Where-Object { ($_.InterfaceIndex -eq $index.InterfaceIndex) } | Select NetConnectionId
