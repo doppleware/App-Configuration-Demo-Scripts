@@ -19,7 +19,8 @@ winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
 # check winrm status
 $winrm_status= Test-WSMan
-Add-Content -Path $dir_path "WinRm Status: `n$winrm_status"
+$wsmid = $winrm_status.wsmid
+Add-Content -Path $dir_path "WinRm wsmid: `n$wsmid"
 
 
 # set execution policy to allow scripts to run
