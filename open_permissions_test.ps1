@@ -1,6 +1,6 @@
 ### Set Log file ###
-$dir_name = "azure_config_log"
-$dir_path = "C:\$dir_name\azure_config.txt"
+$dir_name = "azure-config-logs"
+$dir_path = "C:\$dir_name\azure-config-log.txt"
 
 New-Item -ItemType Directory -Force -Path "C:\$dir_name"
 Set-Content -Path $dir_path -Value "Beginning config script" -Force
@@ -23,9 +23,9 @@ winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
 # check winrm status
-# $winrm_status= Test-WSMan
-# $wsmid = $winrm_status.wsmid
-# Add-Content -Path $dir_path "WinRm wsmid: `n$wsmid"
+$winrm_status= Test-WSMan
+$wsmid = $winrm_status.wsmid
+Add-Content -Path $dir_path "WinRm wsmid: `n$wsmid"
 
 
 # set execution policy to allow scripts to run
