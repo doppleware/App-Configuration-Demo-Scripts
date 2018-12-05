@@ -13,7 +13,7 @@ Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
 
 $net_connection_profile = Get-NetConnectionProfile
 $net_category = $net_connection_profile.NetworkCategory
-Set-Content -Path $dir_path -Value "Current Network Profile $net_category" -Force
+Add-Content -Path $dir_path -Value "Current Network Profile $net_category" -Force
 
 
 # allow winrm config

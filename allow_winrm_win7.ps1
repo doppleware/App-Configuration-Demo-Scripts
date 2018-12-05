@@ -1,6 +1,4 @@
-# Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
-NetSh Advfirewall set allprofiles state off
-# Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
+
 
 <#
 .Synopsis
@@ -213,12 +211,36 @@ function Set-NetConnectionProfileCustom
     }
 }
 
-Set-Content -Path "C:\configlog.txt" -Value "Starting winrm config"
+### Set Log file ###
+$dir_name = "azure-config-logs"
+$dir_path = "C:\$dir_name\azure-config-log.txt"
 
-Get-NetConnectionProfileCustom -NetworkCategory Public | Set-NetConnectionProfileCustom -NetworkCategory Private
+New-Item -ItemType Directory -Force -Path "C:\$dir_name"
+Set-Content -Path $dir_path -Value "Beginning config script" -Force
+
+# turning off local firewall, if you want to leave on you need to open up winrm ports 5985
+$firewall_command_res = NetSh Advfirewall set allprofiles state off
+Add-Content -Path $dir_path -Value "firewall command res: $firewall_command_res" -Force
+
+# Set network to private (necessary for winrm to work)
+$net_connection_output = Get-NetConnectionProfileCustom | Set-NetConnectionProfileCustom -NetworkCategory Private
+Add-Content -Path $dir_path -Value "Current Network Profile: $net_connection_output" -Force
+
+# allow winrm config
 Enable-PSRemoting -SkipNetworkProfileCheck -Force
 winrm set winrm/config/client/auth '@{Basic="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 
-Add-Content -Path "C:\configlog.txt" -Value "winrm config ended"
+# check winrm status
+$winrm_status= Test-WSMan
+$wsmid = $winrm_status.wsmid
+Add-Content -Path $dir_path "WinRm wsmid: `n$wsmid"
+
+# set execution policy to allow scripts to run
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+
+$exec_policy = Get-ExecutionPolicy
+
+Add-Content -Path $dir_path "Current Execution Policy: $exec_policy"
+
