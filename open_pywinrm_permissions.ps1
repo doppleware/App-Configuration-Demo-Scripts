@@ -29,6 +29,6 @@ $winrm_quickconfig_res = winrm quickconfig -force
 Add-Content -Path $dir_path "WinRm quickconfig response: `n$winrm_quickconfig_res"
 
 # set execution policy to allow scripts to run
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 $exec_policy = Get-ExecutionPolicy
 Add-Content -Path $dir_path "Current Execution Policy: $exec_policy"
