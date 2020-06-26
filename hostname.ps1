@@ -1,2 +1,2 @@
 echo 'printing hostname'
-echo hostname
+hostname
