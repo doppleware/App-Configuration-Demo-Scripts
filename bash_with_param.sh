@@ -1,0 +1,1 @@
+echo "running python command with ip" $env:P1
