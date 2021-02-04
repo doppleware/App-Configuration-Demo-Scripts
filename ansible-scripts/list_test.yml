@@ -1,0 +1,11 @@
+--- 
+- name: "my list test playbook"
+  hosts: all
+  
+  tasks: 
+    - name: "Print items"
+      debug: 
+        msg: "the user is: {{ item.name}}, and his age is: {{ item.age }}"
+      loop: "{{  people_list  }}"
+
+      
