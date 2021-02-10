@@ -3,9 +3,10 @@
   hosts: all
   
   tasks: 
-    - name: "Print Hello World"
+    - name: "Print Job start"
       debug:
-        msg: "Pausing for 6 minutes..."
+        msg: "Starting task. Pausing for 6 minutes..."
+    - name: "Pause 6 minutes"
       pause:
         minutes: 6
     - name: "Print Task done"
