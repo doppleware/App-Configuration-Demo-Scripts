@@ -1,0 +1,14 @@
+--- 
+- name: "my playbook"
+  hosts: all
+  
+  tasks: 
+    - name: "Print Hello World"
+      debug:
+        msg: "Pausing for 6 minutes..."
+      pause:
+        minutes: 6
+    - name: "Print Task done"
+      debug:
+        msg: "Task DONE!!"
+      
